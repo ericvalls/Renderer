@@ -17,9 +17,7 @@ contents2 = [[] for i in range (0, square)]
 
 
 for i in range(0, len(contents)/4):
-    contents2[i/square] += [int(contents[4*i+2])]
-    if (int(contents[4*i+2]) != 0 or int(contents[4*i+1]) != 0 or int(contents[4*i]) != 0):
-        print "OIE"
+    contents2[i/square] += [[int(contents[4*i + j]) for j in range (0,3)]]
 
 #print contents2
 print square

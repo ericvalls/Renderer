@@ -15,6 +15,7 @@
 #include <math.h>
 #include <iostream>
 #include <vector>
+#include <chrono>
 
 // Rotate X
 double rX=0;
@@ -26,15 +27,13 @@ double x = 0.6;
 double y = 0.6;
 double z = 0.6;
 
+bool primer = true;
+
 void drawCube()
 {
 	//std::cout << "HOLA" << std::endl;
-	int width = 1000, height = 1000 ;
-	std::vector<std::uint8_t> data(width*height*4);
-	glReadPixels(0,0,width,height,GL_BGRA,GL_UNSIGNED_BYTE,&data[0]);
-	for (int i = 0; i < data.size(); i++){
-			std::cout << unsigned(data[i]) << std::endl;
-	}
+	auto start = std::chrono::high_resolution_clock::now();
+
 
 
         // Set Background Color
@@ -156,6 +155,23 @@ void drawCube()
 
     glFlush();
     glutSwapBuffers();
+
+		int width = 700, height = 700 ;
+		std::vector<std::uint8_t> data(width*height*4);
+		if (!primer) {
+			glReadPixels(0,0,width,height,GL_BGRA,GL_UNSIGNED_BYTE,&data[0]);
+			/*
+			for (int i = 0; i < data.size(); i++){
+					//if (i%4 == 0 and unsigned(data[i]) != 0) std::cout << "OIE" << std::endl;
+					std::cout << unsigned(data[i]) << std::endl;
+			}
+			*/
+		}
+		primer = false;
+
+		auto finish = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double> elapsed = finish - start;
+		std::cout << "Elapsed time: " << elapsed.count() << " s\n";
 }
 
 void keyboard(int key, int x, int y)
